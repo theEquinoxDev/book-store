@@ -15,6 +15,11 @@ router.post("/register", async function(req, res) {
         });
     }
 
+     const existingUsername = await UserModel.findOne({ username });
+    if (existingUsername) {
+      return res.status(400).json({ message: "Username already taken" });
+    }
+
     const hashed = await bcrypt.hash(password, 11);
     const newUser = new UserModel({
         username, 

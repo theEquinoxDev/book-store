@@ -5,18 +5,18 @@ const authenticationMiddlware = require("../middleware/authMiddleware")
 
 
 router.post("/", authenticationMiddlware, async function(req, res) {
-    const {title, author, price, description} = req.body;
+    const {title, author, price, description, image} = req.body;
     const userId = req.userId;
-    const newBook = await BookModel.create({title, author, price, description, userId});
+    const newBook = await BookModel.create({title, author, price, description, image, userId});
     res.json({
         message: "Book Uploaded!", 
         Book : newBook
     });
 });
 
-router.get("/", authenticationMiddlware, async function(req, res) {
-    const userId = req.userId;
-    const books = await BookModel.find({userId});
+router.get("/", async function(req, res) {
+    
+    const books = await BookModel.find();
 
     res.json({books});
 })
